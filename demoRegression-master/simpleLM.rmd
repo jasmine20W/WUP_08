@@ -8,7 +8,10 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+```{r include=FALSE}
+require(tidyverse)
+require(tigerstats)
+```
 ## make a simple regression model
 
 ```{r}
@@ -17,16 +20,105 @@ bears <- read.csv(file="BEARS.csv",header = TRUE)
 bears$SEX<- as.factor(bears$SEX)
 bears$MONTH<- as.factor(bears$MONTH)
 ```
-
-## Model WEIGHT ~ NECK  this is an example  
+## Model WEIGHT ~ SEX
 
 ```{r}
-simp <- lm(WEIGHT~NECK,data=bears)
-plot(WEIGHT~NECK,data=bears)
-abline(simp)
-summary.lm(simp)
+plot(WEIGHT~SEX,data=bears)
+```
+```{r}
+favstats(WEIGHT~SEX,data=bears)
+```
+The average weight of the #1 bears are about 200 lbs while the average weight of the #2 bears are about 150lbs. Group 1 on average weights 50 lbs more than group 2.
+
+
+
+```{r}
+t.test(WEIGHT~SEX,data=bears)
 ```
 
+Our t-test gives us a p-value of 0,252 which is not significant since it is >0.05. This means we accept the null hypothesis. 
 
-## Compare all models that predict WEIGHT other than NECK. Then order them from worst to best by its value of Adjusted-Rsquared (bigger is better), or by RSE (residual standard error) where smaller is better. 
+## Model CHEST ~ SEX
+
+```{r}
+plot(CHEST~SEX,data=bears)
+```
+We can see that the chest size for the #2 bears are a lot smaller than the chest size for the #1 bears. 
+
+```{r}
+favstats(CHEST~SEX,data=bears)
+```
+
+ The average chest size for #1 bears is about 37 while the average chest size for the #2 bears is about 34.
+ 
+```{r}
+t.test(CHEST~SEX,data=bears)
+```
+The t-test gives us a p-value of 0.1989 which is >0.05 so we are accepting the null hypothesis. There is no difference in chest size between group 1 and 2.
+
+## Model LENGTH ~ SEX
+```{r}
+plot(LENGTH~SEX,data=bears)
+```
+We can see that the box of group 2 is smaller than group 1 but their averages are about the same. 
+
+```{r}
+favstats(LENGTH~SEX,data=bears)
+```
+The average length of group 1 is about 59 while the average length of group 2 is about 57. Again, these averages are very close to one another.
+
+```{r}
+t.test(LENGTH~SEX,data=bears)
+```
+The t-test gives us a p-value of 0.4208 which is >0.05 so we are accepting the null hypothesis. There is no difference in length between group 1 and 2.
+
+## Model NECK ~ SEX
+```{r}
+plot(NECK~SEX,data=bears)
+```
+The bears in group 1 have bigger necks than the bears in group 2 according to this graph. 
+
+```{r}
+favstats(NECK~SEX,data=bears)
+```
+The average neck size in group 1 is ~22 while the average neck size in group 2 is ~18. Group 1, on average, has bigger necks than group 2.
+
+```{r}
+t.test(NECK~SEX,data=bears)
+```
+This t-test gives us a p-value of 0.03271 which is <0.05 so we reject the null hypothesis. Group 1's necks are bigger than group 2's necks statistically.
+
+## Model HEADWTH ~ SEX
+```{r}
+plot(HEADWTH~SEX,data=bears)
+```
+From this graph, the headwith of group 1 is an average larger than the headwith of group 2. 
+
+```{r}
+favstats(HEADWTH~SEX,data=bears)
+```
+Group 1's headwith is ~7 while group 2's is about ~6. There does not seem to be a clear difference between the two. 
+
+
+```{r}
+t.test(HEADWTH~SEX,data=bears)
+```
+The p-value is 0.03559 which is <0.05, so we will reject the null hypothesis. So,. headwith is another significant difference between group 1 and 2. The #1 bears have wider heads than the #2 bears. 
+
+## Model HEADLEN ~ SEX
+```{r}
+plot(HEADLEN~SEX,data=bears)
+```
+The head length of group 1 seems to be larger than the head lengths of group 2, even though the averages of both groups do not seem too far off from each other.
+
+```{r}
+favstats(HEADLEN~SEX,data=bears)
+```
+The average head length of group 1 is ~13 while the average head length of group 2 is ~12. The difference in averages does not seem too large. 
+
+```{r}
+t.test(HEADLEN~SEX,data=bears)
+```
+The p-value is 0.1707 which is >0.05, so we will accept the null hypothesis. There is no difference between the lengths of the heads between group 1 and 2.
+
 
